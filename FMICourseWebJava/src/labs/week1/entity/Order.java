@@ -27,6 +27,7 @@ public class Order {
     private BigDecimal totalPrice;
     private List<OrderLine> orderLines;
     private User user;
+    private boolean isActive;
 
     public Order() {
         this.id = counter++;
@@ -42,6 +43,14 @@ public class Order {
         this.orderStatus = orderStatus;
         this.orderLines = new ArrayList<>(Arrays.stream(orderLines).toList());
         this.timestamp = LocalDate.now();
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
     public int getId() {
