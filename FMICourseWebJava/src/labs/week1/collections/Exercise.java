@@ -1,7 +1,9 @@
 package labs.week1.collections;
 
 import labs.week1.collections.entity.Dog;
+import labs.week1.collections.entity.Leg;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -76,6 +78,14 @@ public class Exercise {
         // Fill test information
         // Extract legs inside list/set that have from/to airport for a specific airport
         // (Example: All legs for airport LBSF)
+        List<Leg> legs = List.of(
+                new Leg("Sofia", "London", LocalDate.of(2021, 12, 12)),
+                new Leg("London", "Paris", LocalDate.of(2022, 12, 9)),
+                new Leg("Paris", "Athens", LocalDate.now()));
+
+        List<Leg> londonLegs = legs.stream()
+                .filter(leg -> leg.getFromAirport().equals("London") || leg.getToAirport().equals("London"))
+                .toList();
 
     }
 

@@ -17,10 +17,10 @@ import java.util.List;
  * getters, setters, toString, isActive
  */
 public class Order {
-    private static int counter = 0;
+    private static long counter = 0;
 
-    private final int id;
-    private final LocalDate timestamp;
+    private long id;
+    private LocalDate timestamp;
     private PaymentMethod paymentMethod;
     private OrderStatus orderStatus;
     private LocalDate deliveryDueDate;
@@ -34,39 +34,44 @@ public class Order {
         this.timestamp = LocalDate.now();
     }
 
-    public Order(int id, OrderStatus orderStatus, OrderLine... orderLines) {
-        if (orderStatus == null || orderLines == null) {
-            throw new IllegalArgumentException("Arguments cannot be null");
-        }
-
-        this.id = id;
-        this.orderStatus = orderStatus;
+    public Order(OrderLine... orderLines) {
         this.orderLines = new ArrayList<>(Arrays.stream(orderLines).toList());
-        this.timestamp = LocalDate.now();
     }
 
-    public boolean isActive() {
-        return isActive;
+    public Order(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
+    public Order(int id) {
+        this.id = id;
     }
 
-    public int getId() {
+    public Order(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public static long getCounter() {
+        return counter;
+    }
+
+    public static void setCounter(long counter) {
+        Order.counter = counter;
+    }
+
+    public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public LocalDate getTimestamp() {
         return timestamp;
     }
 
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
+    public void setTimestamp(LocalDate timestamp) {
+        this.timestamp = timestamp;
     }
 
     public PaymentMethod getPaymentMethod() {
@@ -75,6 +80,14 @@ public class Order {
 
     public void setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public LocalDate getDeliveryDueDate() {
@@ -107,6 +120,14 @@ public class Order {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     @Override

@@ -20,6 +20,10 @@ public class OrderLine {
         this.count = count;
     }
 
+    public OrderLine(boolean specialOffer) {
+        this.specialOffer = specialOffer;
+    }
+
     public Item getItem() {
         return item;
     }
