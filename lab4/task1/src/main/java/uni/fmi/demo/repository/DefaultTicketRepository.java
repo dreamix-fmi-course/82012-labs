@@ -3,21 +3,20 @@ package uni.fmi.demo.repository;
 import org.springframework.stereotype.Repository;
 import uni.fmi.demo.model.Ticket;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 // !!! singleton is the default scope, the db is singleton
 
 @Repository
 public class DefaultTicketRepository implements TicketRepository {
-    private static long counter = 0;
-    private final Map<Long, Ticket> ticketMap = new HashMap<>();
+    private final Map<Long, Ticket> ticketMap = new ConcurrentHashMap<>();
 
     @Override
     public void createTicket(Ticket u) {
         validateTicket(u);
-        ticketMap.put(counter++, u);
+        ticketMap.put(u.getTicketId(), u);
     }
 
     @Override
@@ -35,7 +34,8 @@ public class DefaultTicketRepository implements TicketRepository {
     @Override
     public void updateTicketById(Ticket ticket) {
         validateTicket(ticket);
-        ticketMap.put(counter++, ticket);
+        removeTicket(ticket.getTicketId());
+        ticketMap.put(ticket.getTicketId(), ticket);
     }
 
     @Override

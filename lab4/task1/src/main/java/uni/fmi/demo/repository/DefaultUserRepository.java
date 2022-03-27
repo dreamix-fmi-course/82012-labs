@@ -3,19 +3,18 @@ package uni.fmi.demo.repository;
 import org.springframework.stereotype.Repository;
 import uni.fmi.demo.model.User;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class DefaultUserRepository implements UserRepository {
-    private static long counter = 0;
-    private final Map<Long, User> userMap = new HashMap<>();
+    private final Map<Long, User> userMap = new ConcurrentHashMap<>();
 
     @Override
     public void addUser(User u) {
         validateUser(u);
-        userMap.put(counter++, u);
+        userMap.put(u.getId(), u);
     }
 
     @Override
@@ -33,7 +32,8 @@ public class DefaultUserRepository implements UserRepository {
     @Override
     public void updateUser(User user) {
         validateUser(user);
-        userMap.put(counter++, user);
+        deleteUser(user.getId());
+        userMap.put(user.getId(), user);
     }
 
     @Override

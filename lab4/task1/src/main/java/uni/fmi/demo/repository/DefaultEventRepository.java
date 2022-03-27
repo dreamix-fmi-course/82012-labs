@@ -3,19 +3,19 @@ package uni.fmi.demo.repository;
 import org.springframework.stereotype.Repository;
 import uni.fmi.demo.model.Event;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class DefaultEventRepository implements EventRepository {
-    private static long counter = 0;
-    private final Map<Long, Event> eventMap = new HashMap<>();
+    private final Map<Long, Event> eventMap = new ConcurrentHashMap<>();
 
     @Override
     public void createEvent(Event event) {
         validateEvent(event);
-        eventMap.put(counter++, event);
+        eventMap.put(event.getEventId(), event);
     }
 
     @Override
@@ -33,12 +33,13 @@ public class DefaultEventRepository implements EventRepository {
     @Override
     public void updateEvent(Event event) {
         validateEvent(event);
-        eventMap.put(counter++, event);
+        removeEvent(event.getEventId());
+        eventMap.put(event.getEventId(), event);
     }
 
     @Override
     public List<Event> getAllEvents() {
-        return eventMap.values().stream().toList();
+        return Collections.unmodifiableList(eventMap.values().stream().toList());
     }
 
     private void validateId(Long id) {

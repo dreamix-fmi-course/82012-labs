@@ -61,6 +61,7 @@ public class DefaultTicketService implements TicketService {
                 .stream()
                 .filter(ticket -> ticket.getEvent().getDate().toLocalDate().isAfter(from) &&
                         ticket.getEvent().getDate().toLocalDate().isBefore(to))
+                .distinct()
                 .map(Ticket::getEvent)
                 .toList();
     }
